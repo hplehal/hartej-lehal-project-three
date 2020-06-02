@@ -32,6 +32,7 @@ sortingVisualizerApp.generateArrayBar = function (height) {
 sortingVisualizerApp.resetArray = function (arrayLength) {
     sortingVisualizerApp.array = [];
     let randomNumber = 0;
+    $('.arrayGraph').empty();
     for (let i = 0; i < arrayLength; i++) {
         randomNumber = sortingVisualizerApp.randomNumber();
         console.log(randomNumber);
