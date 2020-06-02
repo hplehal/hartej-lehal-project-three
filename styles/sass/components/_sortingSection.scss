@@ -1,0 +1,26 @@
+.sortingName {
+    font-family: Quantico;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 50px;
+    line-height: 71px;
+    color: #FED606;
+}
+
+.sortingDefinition {
+    font-size: 16px;
+    line-height: 23px;
+    text-align: center;
+    color: #C4C4C4;
+    padding: 0 70px;
+}
+.arrayGraph{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+.arrayBar { 
+    background-color: #FED606 ;
+    width:20px;
+    margin: 3px;
+}

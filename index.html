@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Visualizer</title>
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+
+<body>
+    <main class="wrapper">
+        <aside>
+            <h1>Sorting Visualizer</h1>
+            <form action="">
+                <label for="algorithms">Which Sorting Algorithm</label>
+                <select name="algorithms" id="algorithms">
+                    <option value="mergeSort">Merge Sort</option>
+                    <option value="mergeSort">Quick Sort</option>
+                    <option value="mergeSort">Heap Sort</option>
+                    <option value="mergeSort">Bubble Sort</option>
+                </select>
+
+                <label for="arrayLength">Length of the Array</label>
+                <input type="number" name="arrayLength" id="arrayLength">
+
+                <label for="timeDelay">Sorting Speed</label>
+                <select id="speed">
+                    <option value="1">Slow</option>
+                    <option value="2">Moderately Slow</option>
+                    <option value="3">Moderately Fast</option>
+                    <option value="4">Fast</option>
+                </select>
+                <button type="submit">Let's Sort!</button>
+            </form>
+        </aside>
+        <section>
+            <h2 class="sortingName">Merge Sort</h2>
+            <div class="arrayGraph"></div>
+            <div class="sortingDefinition"> First divide the list into the smallest
+                unit (1 element), then compare each element with
+                the adjacent list to sort and merge the two adjacent lists.
+                Finally all the elements are sorted and merged.</div>
+        </section>
+    </main>
+
+    <!-- load Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <!-- load in script.js -->
+    <script src="script.js"></script>
+</body>
+
+</html>
