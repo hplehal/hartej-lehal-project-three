@@ -21,7 +21,9 @@ sortingVisualizerApp.init = function () {
 // Create a function that checks the algorithm that the user chose.
 sortingVisualizerApp.sortingAlgorithmCheck = function (userAlgoChoice) {
     if (userAlgoChoice === 'mergeSort') {
-        sortingVisualizerApp.array = sortingAlgorithms.mergeSort(sortingVisualizerApp.array);
+        // sortingVisualizerApp.array = sortingAlgorithms.(sortingVisualizerApp.array);
+        const swapAnimation = sortingAlgorithms.getMergeAnimation(sortingVisualizerApp.array);
+        sortingVisualizerApp.swapBars(swapAnimation);
     }
 }
 //  Create a function that generates (appends) the random bar form the graph 
@@ -46,50 +48,88 @@ sortingVisualizerApp.randomNumber = function () {
     return Math.floor(Math.random() * (400 - 6) + 5);
 }
 
-sortingVisualizerApp.swapBars = function (animation) {
-    for (let i = 0; i < animation.length; i++) {
-        const $arrayBar = $(`.arrayBar${i}`);
-        const isColorChange = i % 3 !== 2;
+sortingVisualizerApp.swapBars = function (animations) {
+    for (let i = 0; i < animations.length; i++) {
+        const $arrayBar = $(`.arrayBar`);
+        // 
+        const isColorChange = i % 2 !== 1;
         if (isColorChange) {
-            const [barOne, barTwo] = animation[i];
+            const [barOne, barTwo] = animations[i];
+            setTimeout(() => {
+                $(`.arrayBar${barOne}`).css('background-color', '#EB1F1F');
+                $(`.arrayBar${barTwo}`).css('background-color', '#EB1F1F');
+            }, 1000);
+
             console.log('barsOne and Two', barOne, barTwo);
+        } else {
+            setTimeout(() => {
+                const [barOneIndex, newHeight] = animations[i];
+                $(`.arrayBar${barOneIndex}`).css('height', `${newHeight}px`);
+            }, 1000);
         }
     }
 }
 
 const sortingAlgorithms = {
+    // returns the animation array that will be used to get sequence of the index that are being  swapped arrayBar
     getMergeAnimation: function (unsortedArr) {
         const animations = [];
+        // first part of merge base case when the array 
         if (unsortedArr.length <= 1) {
             return unsortedArr;
         }
-        const auxillaryArray = unsortedArr.slice();
-        this.mergeSort(unsortedArr, 0, unsortedArr.length, auxillaryArray, animation);
+        // copy of the unsorted array 
+        const auxilaryArry = unsortedArr.slice();
+        sortingAlgorithms.mergeSort(unsortedArr, 0, unsortedArr.length - 1, auxilaryArry, animations);
+        // console.log('animations', animations);
+        console.log('unsortedArr', unsortedArr);
+        return animations;
     },
-    mergeSort: function (array, startIndex, endIndex, auxillaryArray, animations) {
-        let middle = Math.floor(unsortedArr.length / 2);
-        let leftArr = unsortedArr.slice(0, middle);
-        let rightArr = unsortedArr.slice(middle);
-        // console.log('left', leftArr);
-        // console.log('right', rightArr);
-        return sortingAlgorithms.merge(sortingAlgorithms.mergeSort(leftArr), sortingAlgorithms.mergeSort(rightArr))
-    },
-    merge: function (left, right) {
-        const results = [];
-        let leftIndex = 0;
-        let rightIndex = 0;
+    mergeSort: function (unsortedArr, startIndex, endIndex, auxilaryArry, animations) {
+        if (startIndex === endIndex) {
+            return;
+        }
+        let middle = Math.floor((startIndex + endIndex) / 2);
 
-        while (leftIndex < left.length && rightIndex < right.length) {
-            if (left[leftIndex] < right[rightIndex]) {
-                results.push(left[leftIndex]);
-                leftIndex++;
+        // recursively call mergeSort and after call merge
+        sortingAlgorithms.mergeSort(auxilaryArry, startIndex, middle, unsortedArr, animations);
+        sortingAlgorithms.mergeSort(auxilaryArry, middle + 1, endIndex, unsortedArr, animations);
+        sortingAlgorithms.merge(unsortedArr, startIndex, middle, endIndex, auxilaryArry, animations);
+
+        // I have to change this to get index by index visuals 
+        // let leftArr = unsortedArr.slice(0, middle);
+        // let rightArr = unsortedArr.slice(middle);
+        //sortingAlgorithms.merge(sortingAlgorithms.mergeSort(leftArr), sortingAlgorithms.mergeSort(rightArr))
+    },
+    merge: function (unsortedArr, start, middle, end, auxilaryArry, animations) {
+
+        let leftIndex = start;
+        let rightIndex = start;
+        let middleIndex = middle + 1;
+
+        while (leftIndex <= middle && middleIndex <= end) {
+            animations.push([leftIndex, middleIndex]);
+            console.log('auxilaryArry[leftIndex]:', auxilaryArry[leftIndex]);
+            if (auxilaryArry[leftIndex] <= auxilaryArry[middleIndex]) {
+                animations.push([rightIndex, auxilaryArry[leftIndex]]);
+                unsortedArr[rightIndex++] = auxilaryArry[leftIndex++];
             } else {
-                results.push(right[rightIndex]);
-                rightIndex++;
+                animations.push([rightIndex, auxilaryArry[middleIndex]]);
+                unsortedArr[rightIndex++] = auxilaryArry[middleIndex++];
             }
         }
-        // There will be an extra one that will be left when getting out of the while loop so we need to concat the index
-        return results.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+
+        while (leftIndex <= middle) {
+            animations.push([leftIndex, leftIndex]);
+            animations.push([rightIndex, auxilaryArry[leftIndex]]);
+            unsortedArr[rightIndex++] = auxilaryArry[leftIndex++];
+        }
+
+        while (middleIndex <= end) {
+            animations.push([middleIndex, middleIndex]);
+            animations.push([rightIndex, auxilaryArry[middleIndex]]);
+            unsortedArr[rightIndex++] = auxilaryArry[middleIndex++];
+        }
     }
 }
 $(document).ready(sortingVisualizerApp.init());
