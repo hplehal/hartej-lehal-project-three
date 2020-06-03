@@ -50,22 +50,26 @@ sortingVisualizerApp.randomNumber = function () {
 
 sortingVisualizerApp.swapBars = function (animations) {
     for (let i = 0; i < animations.length; i++) {
-        const $arrayBar = $(`.arrayBar`);
-        // 
-        const isColorChange = i % 2 !== 1;
+        const isColorChange = i % 3 !== 2;
         if (isColorChange) {
             const [barOne, barTwo] = animations[i];
             setTimeout(() => {
-                $(`.arrayBar${barOne}`).css('background-color', '#EB1F1F');
-                $(`.arrayBar${barTwo}`).css('background-color', '#EB1F1F');
-            }, 1000);
+                if (i % 3 === 0) {
+                    $(`.arrayBar${barOne}`).css('background-color', '#EB1F1F');
+                    $(`.arrayBar${barTwo}`).css('background-color', '#EB1F1F');
+                } else {
+                    $(`.arrayBar${barOne}`).css('background-color', '#FED606');
+                    $(`.arrayBar${barTwo}`).css('background-color', '#FED606');
+                }
+
+            }, i * 10);
 
             console.log('barsOne and Two', barOne, barTwo);
         } else {
             setTimeout(() => {
                 const [barOneIndex, newHeight] = animations[i];
                 $(`.arrayBar${barOneIndex}`).css('height', `${newHeight}px`);
-            }, 1000);
+            }, i * 10);
         }
     }
 }
@@ -109,6 +113,7 @@ const sortingAlgorithms = {
 
         while (leftIndex <= middle && middleIndex <= end) {
             animations.push([leftIndex, middleIndex]);
+            animations.push([leftIndex, middleIndex]);
             console.log('auxilaryArry[leftIndex]:', auxilaryArry[leftIndex]);
             if (auxilaryArry[leftIndex] <= auxilaryArry[middleIndex]) {
                 animations.push([rightIndex, auxilaryArry[leftIndex]]);
@@ -121,11 +126,13 @@ const sortingAlgorithms = {
 
         while (leftIndex <= middle) {
             animations.push([leftIndex, leftIndex]);
+            animations.push([leftIndex, leftIndex]);
             animations.push([rightIndex, auxilaryArry[leftIndex]]);
             unsortedArr[rightIndex++] = auxilaryArry[leftIndex++];
         }
 
         while (middleIndex <= end) {
+            animations.push([middleIndex, middleIndex]);
             animations.push([middleIndex, middleIndex]);
             animations.push([rightIndex, auxilaryArry[middleIndex]]);
             unsortedArr[rightIndex++] = auxilaryArry[middleIndex++];
