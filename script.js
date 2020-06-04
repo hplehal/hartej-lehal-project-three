@@ -20,10 +20,19 @@ sortingVisualizerApp.init = function () {
 }
 // Create a function that checks the algorithm that the user chose.
 sortingVisualizerApp.sortingAlgorithmCheck = function (userAlgoChoice) {
+    let $name = $('.sortingName');
+    let $definition = $('.sortingDefinition');
     if (userAlgoChoice === 'mergeSort') {
-        // sortingVisualizerApp.array = sortingAlgorithms.(sortingVisualizerApp.array);
-        const swapAnimation = sortingAlgorithms.getMergeAnimation(sortingVisualizerApp.array);
-        sortingVisualizerApp.swapBars(swapAnimation);
+        // sortingVisualizerApp.array = mergeSortingAlgorithm.(sortingVisualizerApp.array);
+        const swapMergeAnimation = mergeSortingAlgorithm.getMergeAnimation(sortingVisualizerApp.array);
+        sortingVisualizerApp.swapBars(swapMergeAnimation);
+        $name.text(mergeSortingAlgorithm.name);
+        $definition.text(mergeSortingAlgorithm.definition);
+    } else if (userAlgoChoice === 'bubbleSort') {
+        const swapBubbleAnimation = bubbleSortingAlgorithm.bubbleSort(sortingVisualizerApp.array);
+        sortingVisualizerApp.swapBars(swapBubbleAnimation);
+        $name.text(bubbleSortingAlgorithm.name);
+        $definition.text(bubbleSortingAlgorithm.definition);
     }
 }
 //  Create a function that generates (appends) the random bar form the graph 
@@ -62,19 +71,21 @@ sortingVisualizerApp.swapBars = function (animations) {
                     $(`.arrayBar${barTwo}`).css('background-color', '#FED606');
                 }
 
-            }, i * 10);
+            }, i * 200);
 
             console.log('barsOne and Two', barOne, barTwo);
         } else {
             setTimeout(() => {
                 const [barOneIndex, newHeight] = animations[i];
                 $(`.arrayBar${barOneIndex}`).css('height', `${newHeight}px`);
-            }, i * 10);
+            }, i * 200);
         }
     }
 }
 
-const sortingAlgorithms = {
+const mergeSortingAlgorithm = {
+    name: 'Merge Sort',
+    definition: 'First divide the list into the smallest unit (1 element), then compare each element with the adjacent list to sort and merge the two adjacent lists. Finally all the elements are sorted and merged.',
     // returns the animation array that will be used to get sequence of the index that are being  swapped arrayBar
     getMergeAnimation: function (unsortedArr) {
         const animations = [];
@@ -84,7 +95,7 @@ const sortingAlgorithms = {
         }
         // copy of the unsorted array 
         const auxilaryArry = unsortedArr.slice();
-        sortingAlgorithms.mergeSort(unsortedArr, 0, unsortedArr.length - 1, auxilaryArry, animations);
+        mergeSortingAlgorithm.mergeSort(unsortedArr, 0, unsortedArr.length - 1, auxilaryArry, animations);
         // console.log('animations', animations);
         console.log('unsortedArr', unsortedArr);
         return animations;
@@ -96,14 +107,14 @@ const sortingAlgorithms = {
         let middle = Math.floor((startIndex + endIndex) / 2);
 
         // recursively call mergeSort and after call merge
-        sortingAlgorithms.mergeSort(auxilaryArry, startIndex, middle, unsortedArr, animations);
-        sortingAlgorithms.mergeSort(auxilaryArry, middle + 1, endIndex, unsortedArr, animations);
-        sortingAlgorithms.merge(unsortedArr, startIndex, middle, endIndex, auxilaryArry, animations);
+        mergeSortingAlgorithm.mergeSort(auxilaryArry, startIndex, middle, unsortedArr, animations);
+        mergeSortingAlgorithm.mergeSort(auxilaryArry, middle + 1, endIndex, unsortedArr, animations);
+        mergeSortingAlgorithm.merge(unsortedArr, startIndex, middle, endIndex, auxilaryArry, animations);
 
         // I have to change this to get index by index visuals 
         // let leftArr = unsortedArr.slice(0, middle);
         // let rightArr = unsortedArr.slice(middle);
-        //sortingAlgorithms.merge(sortingAlgorithms.mergeSort(leftArr), sortingAlgorithms.mergeSort(rightArr))
+        //mergeSortingAlgorithm.merge(mergeSortingAlgorithm.mergeSort(leftArr), mergeSortingAlgorithm.mergeSort(rightArr))
     },
     merge: function (unsortedArr, start, middle, end, auxilaryArry, animations) {
 
@@ -137,6 +148,30 @@ const sortingAlgorithms = {
             animations.push([rightIndex, auxilaryArry[middleIndex]]);
             unsortedArr[rightIndex++] = auxilaryArry[middleIndex++];
         }
+    }
+}
+
+const bubbleSortingAlgorithm = {
+    name: 'Bubble Sort',
+    definition: 'Starting from the beginning of the list, compare every adjacent pair, swap their position if they are not in the right order (the latter one is smaller than the former one). After each iteration, one less element (the last one) is needed to be compared until there are no more elements left to be compared',
+    bubbleSort: function (unsortedArr) {
+        const animations = [];
+        for (let i = 0; i < unsortedArr.length; i++) {
+            for (let j = 0; j < unsortedArr.length; j++) {
+                if (unsortedArr[j] > unsortedArr[j + 1]) {
+                    animations.push([j, j + 1]);
+                    animations.push([j, j + 1]);
+                    animations.push([j, unsortedArr[j + 1]]);
+                    animations.push([j + 1, j]);
+                    animations.push([j + 1, j]);
+                    animations.push([j + 1, unsortedArr[j]]);
+                    let temp = unsortedArr[j];
+                    unsortedArr[j] = unsortedArr[j + 1];
+                    unsortedArr[j + 1] = temp;
+                }
+            }
+        }
+        return animations;
     }
 }
 $(document).ready(sortingVisualizerApp.init());
