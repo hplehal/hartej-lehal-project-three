@@ -1,8 +1,9 @@
 // namespacing 
 const sortingVisualizerApp = {
-    sortingAlgo: 'hello',
+    animationSpeed: 0,
     arrayLength: '',
-    array: []
+    array: [],
+    sortingAlgo: 'hello',
 };
 // ⏬ Create an init method
 sortingVisualizerApp.init = function () {
@@ -10,12 +11,10 @@ sortingVisualizerApp.init = function () {
     $('form').on('submit', function (e) {
         e.preventDefault();
         sortingVisualizerApp.sortingAlgo = $('#algorithms option:selected').val();
+        sortingVisualizerApp.animationSpeed = $('#speed option:selected').val();
         sortingVisualizerApp.arrayLength = parseInt($('input[type=number]').val());
         sortingVisualizerApp.resetArray(sortingVisualizerApp.arrayLength);
-        console.log(sortingVisualizerApp.array);
         sortingVisualizerApp.sortingAlgorithmCheck(sortingVisualizerApp.sortingAlgo);
-
-        console.log(sortingVisualizerApp.array);
     });
 }
 
@@ -24,19 +23,21 @@ sortingVisualizerApp.sortingAlgorithmCheck = function (userAlgoChoice) {
     let $name = $('.sortingName');
     let $definition = $('.sortingDefinition');
     if (userAlgoChoice === 'mergeSort') {
-        // sortingVisualizerApp.array = mergeSortingAlgorithm.(sortingVisualizerApp.array);
         const swapMergeAnimation = mergeSortingAlgorithm.getMergeAnimation(sortingVisualizerApp.array);
         sortingVisualizerApp.swapBars(swapMergeAnimation);
+
         $name.text(mergeSortingAlgorithm.name);
         $definition.text(mergeSortingAlgorithm.definition);
     } else if (userAlgoChoice === 'bubbleSort') {
         const swapBubbleAnimation = bubbleSortingAlgorithm.bubbleSort(sortingVisualizerApp.array);
         sortingVisualizerApp.swapBars(swapBubbleAnimation);
+
         $name.text(bubbleSortingAlgorithm.name);
         $definition.text(bubbleSortingAlgorithm.definition);
     } else if (userAlgoChoice === 'quickSort') {
         const swapQuickAnimation = quickSortingAlgorithm.getQuicksortAnimation(sortingVisualizerApp.array);
         sortingVisualizerApp.swapBars(swapQuickAnimation);
+
         $name.text(quickSortingAlgorithm.name);
         $definition.text(quickSortingAlgorithm.definition);
     }
@@ -69,6 +70,7 @@ sortingVisualizerApp.randomNumber = function () {
 //with the idea of creating a sequence array to get the swapBars to work. 
 sortingVisualizerApp.swapBars = function (animations) {
     for (let i = 0; i < animations.length; i++) {
+        // check if i is not the every 3rd item in the array then cache true
         const isColorChange = i % 3 !== 2;
         if (isColorChange) {
             const barOne = animations[i][0];
@@ -81,13 +83,13 @@ sortingVisualizerApp.swapBars = function (animations) {
                     $(`.arrayBar${barOne}`).css('background-color', '#FED606');
                     $(`.arrayBar${barTwo}`).css('background-color', '#FED606');
                 }
-            }, i * 110);
+            }, i * sortingVisualizerApp.animationSpeed);
         } else {
             setTimeout(() => {
                 const barIndex = animations[i][0];
                 const newHeight = animations[i][1];
                 $(`.arrayBar${barIndex}`).css('height', `${newHeight}px`);
-            }, i * 110);
+            }, i * sortingVisualizerApp.animationSpeed);
         }
     }
 }
@@ -105,8 +107,6 @@ const mergeSortingAlgorithm = {
         // copy of the unsorted array 
         const auxilaryArry = unsortedArr.slice();
         mergeSortingAlgorithm.mergeSort(unsortedArr, 0, unsortedArr.length - 1, auxilaryArry, animations);
-        // console.log('animations', animations);
-        // console.log('unsortedArr', unsortedArr);
         return animations;
     },
     mergeSort: function (unsortedArr, startIndex, endIndex, auxilaryArry, animations) {
@@ -120,10 +120,6 @@ const mergeSortingAlgorithm = {
         this.mergeSort(auxilaryArry, middle + 1, endIndex, unsortedArr, animations);
         mergeSortingAlgorithm.merge(unsortedArr, startIndex, middle, endIndex, auxilaryArry, animations);
 
-        // I have to change this to get index by index visuals 
-        // let leftArr = unsortedArr.slice(0, middle);
-        // let rightArr = unsortedArr.slice(middle);
-        //mergeSortingAlgorithm.merge(mergeSortingAlgorithm.mergeSort(leftArr), mergeSortingAlgorithm.mergeSort(rightArr))
     },
     merge: function (unsortedArr, start, middle, end, auxilaryArry, animations) {
 
