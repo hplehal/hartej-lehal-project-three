@@ -4,7 +4,7 @@ const sortingVisualizerApp = {
     arrayLength: '',
     array: []
 };
-// Create an init method
+// ⏬ Create an init method
 sortingVisualizerApp.init = function () {
 
     $('form').on('submit', function (e) {
@@ -18,7 +18,8 @@ sortingVisualizerApp.init = function () {
         console.log(sortingVisualizerApp.array);
     });
 }
-// Create a function that checks the algorithm that the user chose.
+
+// ⏬ Create a function that checks the algorithm that the user chose.
 sortingVisualizerApp.sortingAlgorithmCheck = function (userAlgoChoice) {
     let $name = $('.sortingName');
     let $definition = $('.sortingDefinition');
@@ -33,15 +34,21 @@ sortingVisualizerApp.sortingAlgorithmCheck = function (userAlgoChoice) {
         sortingVisualizerApp.swapBars(swapBubbleAnimation);
         $name.text(bubbleSortingAlgorithm.name);
         $definition.text(bubbleSortingAlgorithm.definition);
+    } else if (userAlgoChoice === 'quickSort') {
+        const swapQuickAnimation = quickSortingAlgorithm.getQuicksortAnimation(sortingVisualizerApp.array);
+        sortingVisualizerApp.swapBars(swapQuickAnimation);
+        $name.text(quickSortingAlgorithm.name);
+        $definition.text(quickSortingAlgorithm.definition);
     }
 }
-//  Create a function that generates (appends) the random bar form the graph 
+
+// ⏬ Create a function that generates (appends) the random bar form the graph 
 sortingVisualizerApp.generateArrayBar = function (height, index) {
     $('.arrayGraph').append(`<div class="arrayBar arrayBar${index}"><div>`);
     $(`.arrayBar${index}`).css('height', `${height}px`);
 }
 
-// Create a funcction that resets the array 
+//⏬ Create a funcction that resets the array 
 sortingVisualizerApp.resetArray = function (arrayLength) {
     sortingVisualizerApp.array = [];
     let randomNumber = 0;
@@ -52,16 +59,20 @@ sortingVisualizerApp.resetArray = function (arrayLength) {
         sortingVisualizerApp.generateArrayBar(randomNumber, i);
     }
 }
-// Create a method that generates a random number
+
+// ⏬ Create a method that generates a random number
 sortingVisualizerApp.randomNumber = function () {
     return Math.floor(Math.random() * (400 - 6) + 5);
 }
 
+// ⏬ I got a little help from this 🙏🏽🙏🏽🙏🏽 https://www.youtube.com/watch?v=pFXYym4Wbkc&feature=youtu.be   
+//with the idea of creating a sequence array to get the swapBars to work. 
 sortingVisualizerApp.swapBars = function (animations) {
     for (let i = 0; i < animations.length; i++) {
         const isColorChange = i % 3 !== 2;
         if (isColorChange) {
-            const [barOne, barTwo] = animations[i];
+            const barOne = animations[i][0];
+            const barTwo = animations[i][1]
             setTimeout(() => {
                 if (i % 3 === 0) {
                     $(`.arrayBar${barOne}`).css('background-color', '#EB1F1F');
@@ -70,15 +81,13 @@ sortingVisualizerApp.swapBars = function (animations) {
                     $(`.arrayBar${barOne}`).css('background-color', '#FED606');
                     $(`.arrayBar${barTwo}`).css('background-color', '#FED606');
                 }
-
-            }, i * 200);
-
-            console.log('barsOne and Two', barOne, barTwo);
+            }, i * 110);
         } else {
             setTimeout(() => {
-                const [barOneIndex, newHeight] = animations[i];
-                $(`.arrayBar${barOneIndex}`).css('height', `${newHeight}px`);
-            }, i * 200);
+                const barIndex = animations[i][0];
+                const newHeight = animations[i][1];
+                $(`.arrayBar${barIndex}`).css('height', `${newHeight}px`);
+            }, i * 110);
         }
     }
 }
@@ -97,7 +106,7 @@ const mergeSortingAlgorithm = {
         const auxilaryArry = unsortedArr.slice();
         mergeSortingAlgorithm.mergeSort(unsortedArr, 0, unsortedArr.length - 1, auxilaryArry, animations);
         // console.log('animations', animations);
-        console.log('unsortedArr', unsortedArr);
+        // console.log('unsortedArr', unsortedArr);
         return animations;
     },
     mergeSort: function (unsortedArr, startIndex, endIndex, auxilaryArry, animations) {
@@ -107,8 +116,8 @@ const mergeSortingAlgorithm = {
         let middle = Math.floor((startIndex + endIndex) / 2);
 
         // recursively call mergeSort and after call merge
-        mergeSortingAlgorithm.mergeSort(auxilaryArry, startIndex, middle, unsortedArr, animations);
-        mergeSortingAlgorithm.mergeSort(auxilaryArry, middle + 1, endIndex, unsortedArr, animations);
+        this.mergeSort(auxilaryArry, startIndex, middle, unsortedArr, animations);
+        this.mergeSort(auxilaryArry, middle + 1, endIndex, unsortedArr, animations);
         mergeSortingAlgorithm.merge(unsortedArr, startIndex, middle, endIndex, auxilaryArry, animations);
 
         // I have to change this to get index by index visuals 
@@ -151,6 +160,7 @@ const mergeSortingAlgorithm = {
     }
 }
 
+// https://medium.com/javascript-algorithms/javascript-algorithms-bubble-sort-3d27f285c3b2
 const bubbleSortingAlgorithm = {
     name: 'Bubble Sort',
     definition: 'Starting from the beginning of the list, compare every adjacent pair, swap their position if they are not in the right order (the latter one is smaller than the former one). After each iteration, one less element (the last one) is needed to be compared until there are no more elements left to be compared',
@@ -172,6 +182,67 @@ const bubbleSortingAlgorithm = {
             }
         }
         return animations;
+    }
+}
+
+// https://www.geeksforgeeks.org/quick-sort/
+const quickSortingAlgorithm = {
+    name: 'Quick Sort',
+    definition: 'Quick Sort is a divide and conquer algorithm just like Merge Sort. It creates two empty arrays to hold elements less than the pivot value and elements greater than the pivot value, and then recursively sort the sub arrays. There are two basic operations in the algorithm, swapping items in place and partitioning a section of the array.',
+    getQuicksortAnimation: function (unsortedArr) {
+        const animations = [];
+        if (unsortedArr.length <= 1) {
+            return unsortedArr;
+        }
+        quickSortingAlgorithm.quickSort(unsortedArr, 0, unsortedArr.length - 1, animations);
+        console.log(animations);
+        return animations;
+
+    },
+
+    quickSort: function (unsortedArr, start, end, animations) {
+        if (start < end) {
+            let partitionIndex = quickSortingAlgorithm.partition(unsortedArr, start, end, animations);
+            this.quickSort(unsortedArr, start, partitionIndex - 1, animations);
+            this.quickSort(unsortedArr, partitionIndex + 1, end, animations);
+        }
+    },
+
+    // This function takes last element as pivot, places
+    // the pivot element at its correct position in sorted
+    // array, and places all smaller(smaller than pivot)
+    // to left of pivot and all greater elements to right
+    // of pivot
+    partition: function (unsortedArr, start, end, animations) {
+        let pivot = unsortedArr[end];
+        let temp = 0;
+        let i = start - 1;
+        for (let j = start; j <= end; j++) {
+            if (unsortedArr[j] < pivot) {
+                i++;
+                animations.push([i, j]);
+                animations.push([i, j]);
+                animations.push([i, unsortedArr[j]])
+                animations.push([j, i]);
+                animations.push([j, i]);
+                animations.push([j, unsortedArr[i]])
+                temp = unsortedArr[i];
+                unsortedArr[i] = unsortedArr[j];
+                unsortedArr[j] = temp;
+            }
+        }
+        i++;
+        animations.push([i, end]);
+        animations.push([i, end]);
+        animations.push([i, unsortedArr[end]])
+        animations.push([end, i]);
+        animations.push([end, i]);
+        animations.push([end, unsortedArr[i]])
+        temp = unsortedArr[i];
+        unsortedArr[i] = unsortedArr[end];
+        unsortedArr[end] = temp;
+
+        return i;
     }
 }
 $(document).ready(sortingVisualizerApp.init());
