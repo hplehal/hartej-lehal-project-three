@@ -271,6 +271,15 @@ main {
   display: flex;
 }
 
+@media (max-width: 768px) {
+  main {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
 aside {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -286,8 +295,13 @@ aside {
       -ms-flex-align: center;
           align-items: center;
   background-color: #FED606;
-  width: 30vw;
   height: 100vh;
+}
+
+@media (max-width: 768px) {
+  aside {
+    width: 100vw;
+  }
 }
 
 h1 {
@@ -348,6 +362,13 @@ section {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+@media (max-width: 768px) {
+  section {
+    width: 100vw;
+    height: 100vh;
+  }
 }
 
 #timeDelay {

@@ -10,9 +10,13 @@ const sortingVisualizerApp = {
 sortingVisualizerApp.init = function () {
     $('#arrayLength').on('change', function () {
         $('.lengthOnChange').text(this.value);
+        console.log(this.value);
     })
+
     sortingVisualizerApp.appDisplay();
     $('form').on('submit', function (e) {
+        sortingVisualizerApp.smoothScroll();
+        $('button').attr('disabled', true);
         e.preventDefault();
         sortingVisualizerApp.sortingAlgo = $('#algorithms option:selected').val();
 
@@ -22,6 +26,7 @@ sortingVisualizerApp.init = function () {
         sortingVisualizerApp.sortingAlgorithmCheck(sortingVisualizerApp.sortingAlgo);
     });
 }
+
 sortingVisualizerApp.appDisplay = function () {
     let desktop = 1200;
     let screenWidth = $(window).width();
@@ -29,6 +34,15 @@ sortingVisualizerApp.appDisplay = function () {
         $('#arrayLength').attr('max', 30);
     }
 }
+
+sortingVisualizerApp.smoothScroll = () => {
+    $("html").animate(
+        {
+            scrollTop: $("section").offset().top,
+        },
+        1500
+    );
+};
 
 // ⏬ Create a function that checks the algorithm that the user chose.
 sortingVisualizerApp.sortingAlgorithmCheck = function (userAlgoChoice) {
@@ -64,8 +78,6 @@ sortingVisualizerApp.generateArrayBar = function (height, index) {
 //⏬ Create a funcction that resets the array 
 sortingVisualizerApp.resetArray = function (arrayLength) {
     sortingVisualizerApp.array = [];
-    let animations = [];
-    sortingVisualizerApp.swapBars(animations);
     let randomNumber = 0;
     $('.arrayGraph').empty();
     for (let i = 0; i < arrayLength; i++) {
@@ -108,6 +120,9 @@ sortingVisualizerApp.swapBars = function (animations) {
                 const barIndex = animations[i][0];
                 const newHeight = animations[i][1];
                 $(`.arrayBar${barIndex}`).css('height', `${newHeight}px`);
+                if (i === animations.length - 1) {
+                    $('button').attr('disabled', false);
+                }
             }, i * sortingVisualizerApp.animationSpeed);
         }
     }

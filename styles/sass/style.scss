@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&display=swap');
+
+// helpers 
+@import "helpers/responsive";
+@import "helpers/mixins";
+
 // components
 @import "components/setup";
 @import "components/global";

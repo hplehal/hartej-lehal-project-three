@@ -11,6 +11,9 @@ body{
 }
 main {
     display: flex;
+    @include responsiveMedia(phone) {
+        flex-direction: column;   
+    }
 }
 
 aside {
@@ -19,8 +22,11 @@ aside {
     justify-content: center;
     align-items: center;
     background-color:#FED606 ;
-    width: 30vw;
+   
     height: 100vh;
+    @include responsiveMedia(phone) {
+        width: 100vw;
+    }
 }
 
 h1 {
@@ -61,4 +67,8 @@ section {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    @include responsiveMedia(phone) {
+        width: 100vw;
+        height:100vh;
+    }
 }
