@@ -20,16 +20,11 @@
                     <option value="bubbleSort">Bubble Sort</option>
                 </select>
 
-                <label for="arrayLength">Length of the Array</label>
-                <input type="number" name="arrayLength" id="arrayLength">
+                <label for="arrayLength">Length of the Array: <span class="lengthOnChange"></span></label>
+                <input type="range" name="arrayLength" id="arrayLength" min="5" max="50">
 
                 <label for="timeDelay">Sorting Speed</label>
-                <select id="speed">
-                    <option value="300">Slow</option>
-                    <option value="200">Moderately Slow</option>
-                    <option value="100">Moderately Fast</option>
-                    <option value="50">Fast</option>
-                </select>
+                <input type="range" name="timeDelay" id="timeDelay" min="10" max="300">
                 <button type="submit">Let's Sort!</button>
             </form>
         </aside>
