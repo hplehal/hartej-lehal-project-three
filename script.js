@@ -29,9 +29,12 @@ sortingVisualizerApp.init = function () {
 
 sortingVisualizerApp.appDisplay = function () {
     let desktop = 1200;
+    let phone = 600;
     let screenWidth = $(window).width();
-    if (screenWidth <= desktop) {
+    if (screenWidth > phone && screenWidth <= desktop) {
         $('#arrayLength').attr('max', 30);
+    } else if (screenWidth <= phone) {
+        $('#arrayLength').attr('max', 15);
     }
 }
 
@@ -200,7 +203,7 @@ sortingVisualizerApp.mergeSortingAlgorithm = {
 // https://medium.com/javascript-algorithms/javascript-algorithms-bubble-sort-3d27f285c3b2
 sortingVisualizerApp.bubbleSortingAlgorithm = {
     name: 'Bubble Sort',
-    definition: 'Starting from the beginning of the list, compare every adjacent pair, swap their position if they are not in the right order (the latter one is smaller than the former one). After each iteration, one less element (the last one) is needed to be compared until there are no more elements left to be compared',
+    definition: 'Starting from the beginning of the list, compare every adjacent pair, swap their position if they are not in the right order. After each iteration, one less element is needed to be compared until all the elements are checked!',
     //    compare all the pairs, swap their position if the index + 1 is smaller than index
     bubbleSort: function (unsortedArr) {
         const animations = [];
@@ -227,7 +230,7 @@ sortingVisualizerApp.bubbleSortingAlgorithm = {
 // https://www.geeksforgeeks.org/quick-sort/
 sortingVisualizerApp.quickSortingAlgorithm = {
     name: 'Quick Sort',
-    definition: 'Quick Sort is a divide and conquer algorithm just like Merge Sort. It creates two empty arrays to hold elements less than the pivot value and elements greater than the pivot value, and then recursively sort the sub arrays. There are two basic operations in the algorithm, swapping items in place and partitioning a section of the array.',
+    definition: ' This sort creates two empty arrays to hold elements less than the pivot and elements greater than the pivot, and then recursively sort the sub arrays. There are two operations, swapping items in place and partitioning a section of the array.',
     getQuicksortAnimation: function (unsortedArr) {
         const animations = [];
         if (unsortedArr.length <= 1) {

@@ -295,6 +295,7 @@ aside {
       -ms-flex-align: center;
           align-items: center;
   background-color: #FED606;
+  width: 30vw;
   height: 100vh;
 }
 

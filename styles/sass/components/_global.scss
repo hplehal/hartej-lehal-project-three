@@ -22,7 +22,7 @@ aside {
     justify-content: center;
     align-items: center;
     background-color:#FED606 ;
-   
+    width:30vw;
     height: 100vh;
     @include responsiveMedia(phone) {
         width: 100vw;
