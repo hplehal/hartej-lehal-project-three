@@ -60,7 +60,7 @@ sortingVisualizerApp.checkValueOnChange = function () {
 }
 
 // ⏬ Create a function that will scroll down to the section
-sortingVisualizerApp.smoothScroll = () => {
+sortingVisualizerApp.smoothScroll = function () {
     $("html").animate(
         {
             scrollTop: $("section").offset().top,
