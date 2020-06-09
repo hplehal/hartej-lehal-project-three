@@ -14,6 +14,7 @@ sortingVisualizerApp.init = function () {
     sortingVisualizerApp.appDisplay();
     // used if the screen is resized
     $(window).resize(function () {
+        location.reload();
         sortingVisualizerApp.appDisplay();
     });
 
@@ -36,22 +37,23 @@ sortingVisualizerApp.appDisplay = function () {
     let desktop = 1200;
     let phone = 600;
     let screenWidth = $(window).width();
-    $('.lengthOnChange').text(50);
     if (screenWidth > phone && screenWidth <= desktop) {
         $('#arrayLength').attr('max', 30);
         $('.lengthOnChange').text(30);
     } else if (screenWidth <= phone) {
         $('#arrayLength').attr('max', 15);
         $('.lengthOnChange').text(15);
-        // if ($('#arrayLength').val() > 15) {
-        //     $('#arrayLength').attr('max', 15);
-        //     $('#arrayLength').val(15);
-        // }
+        if ($('#arrayLength').val() > 15) {
+            $('#arrayLength').attr('max', 15);
+            $('#arrayLength').val(15);
+        }
     }
 }
 
 // ⏬ listens to the change on the input range for the array length and change the text for the span to the current value
 sortingVisualizerApp.checkValueOnChange = function () {
+    let value = $('#arrayLength').val();
+    $('.lengthOnChange').text(value);
     $('#arrayLength').on('change', function () {
         $('.lengthOnChange').text(this.value);
     })
