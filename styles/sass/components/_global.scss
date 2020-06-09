@@ -4,14 +4,14 @@ html {
 
 body{
     height: 100vh;
-    background-color: #000000;
+    background-color: $black;
     font-family: Quantico;
     font-style: normal;
     font-weight: normal;
 }
 main {
     display: flex;
-    @include responsiveMedia(phone) {
+    @include responsiveMedia(smallTablet) {
         flex-direction: column;   
     }
 }
@@ -21,22 +21,28 @@ aside {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color:#FED606 ;
+    background-color:$yellow ;
     width:30vw;
     height: 100vh;
-    @include responsiveMedia(phone) {
+    @include responsiveMedia(smallTablet) {
         width: 100vw;
     }
 }
 
 h1 {
     font-family: Quantico;
-font-style: normal;
-font-weight: bold;
-font-size: 30px;
-text-align: center;
-line-height: 43px;
-color: #050505;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 4rem;
+    text-align: center;
+    line-height: 43px;
+    color: $black;
+}
+
+p{
+    font-size: 16px;
+    text-align: center;
+    padding: 25px 25px 0;
 }
 
 form {
@@ -44,20 +50,35 @@ form {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    margin: 50px 0;
-    label {
+    margin: 30px 0;
+    select {
+        outline: 0;
+        box-shadow: none;
+        border: none;
+        background: $gray;
+        padding: 0 50px;
         font-size: 16px;
+        font-family: Quantico;
+        height: 30px;
+    }
+    label {
+        font-size: 2rem;
+        font-weight: 700;
         line-height: 23px;
         padding: 20px 0;
+        text-align: center;
     }
     button{ 
-        background-color: #000000;
+        background-color: $black;
         border: none;
-        color: #FFFBFB;
+        color: $white;
         font-size: 16px;
         line-height: 23px;
         margin: 20px 0;
-        padding: 10px;
+        padding: 10px 50px;
+        &:hover, :focus {
+         color: $yellow;
+        }
     }
 }
 
@@ -67,8 +88,15 @@ section {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    @include responsiveMedia(phone) {
+    @include responsiveMedia(smallTablet) {
         width: 100vw;
         height:100vh;
+    }
+}
+
+footer {
+    p{
+        font-size: 16px;
+        color: $white;
     }
 }

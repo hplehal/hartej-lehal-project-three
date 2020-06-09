@@ -13,7 +13,14 @@ sortingVisualizerApp.init = function () {
         console.log(this.value);
     })
 
+    // used for initial appDisplay
     sortingVisualizerApp.appDisplay();
+    // used if the screen is resized
+    $(window).resize(function () {
+        sortingVisualizerApp.appDisplay();
+    });
+
+
     $('form').on('submit', function (e) {
         sortingVisualizerApp.smoothScroll();
         $('button').attr('disabled', true);
@@ -27,17 +34,26 @@ sortingVisualizerApp.init = function () {
     });
 }
 
+// ⏬ Create a Function change the max value of the arraylength depending on the screensize
 sortingVisualizerApp.appDisplay = function () {
     let desktop = 1200;
     let phone = 600;
     let screenWidth = $(window).width();
+    $('.lengthOnChange').text(50);
     if (screenWidth > phone && screenWidth <= desktop) {
         $('#arrayLength').attr('max', 30);
+        $('.lengthOnChange').text(30);
     } else if (screenWidth <= phone) {
         $('#arrayLength').attr('max', 15);
+        $('.lengthOnChange').text(15);
+        // if ($('#arrayLength').val() > 15) {
+        //     $('#arrayLength').attr('max', 15);
+        //     $('#arrayLength').val(15);
+        // }
     }
 }
 
+// ⏬ Create a function that will scroll down to the section
 sortingVisualizerApp.smoothScroll = () => {
     $("html").animate(
         {
@@ -101,7 +117,6 @@ sortingVisualizerApp.randomNumber = function () {
 // in the animations array inside every 3rd index ther is an array that stores the index and the number(height).
 // hence i am using mod 3 !== 2 to change the color which animations array contains 
 // the rest will be changing height.
-
 sortingVisualizerApp.swapBars = function (animations) {
     for (let i = 0; i < animations.length; i++) {
         // check if i is not the every 3rd item in the array then cache true

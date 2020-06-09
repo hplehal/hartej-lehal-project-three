@@ -4,16 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorting Visualizer</title>
     <link rel="stylesheet" href="./styles/style.css">
+    <link type="image/png" href="assets/images/favicon.ico" rel="icon" />
+    <title>Sorting Visualizer</title>
 </head>
 
 <body>
     <main class="wrapper">
         <aside>
             <h1>Sorting Visualizer</h1>
+            <p>This app will visualize the difference between sorting algorithms by seeing
+                them in action! </p>
             <form action="">
-                <label for="algorithms">Which Sorting Algorithm</label>
+                <label for="algorithms">Choose a Sorting Algorithm</label>
                 <select name="algorithms" id="algorithms">
                     <option value="mergeSort">Merge Sort</option>
                     <option value="quickSort">Quick Sort</option>
@@ -30,8 +33,12 @@
         </aside>
         <section>
             <h2 class="sortingName"></h2>
+            <!-- use aria for accessibility -->
             <div class="arrayGraph"></div>
             <div class="sortingDefinition"></div>
+            <footer>
+                <p>Created by TejLehal 🧞‍♂️</p>
+            </footer>
         </section>
     </main>
 
