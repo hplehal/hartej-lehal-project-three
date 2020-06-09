@@ -8,11 +8,8 @@ const sortingVisualizerApp = {
 
 // ⏬ Create an init method
 sortingVisualizerApp.init = function () {
-    $('#arrayLength').on('change', function () {
-        $('.lengthOnChange').text(this.value);
-        console.log(this.value);
-    })
-
+    // checks 
+    sortingVisualizerApp.checkValueOnChange();
     // used for initial appDisplay
     sortingVisualizerApp.appDisplay();
     // used if the screen is resized
@@ -53,6 +50,13 @@ sortingVisualizerApp.appDisplay = function () {
     }
 }
 
+// ⏬ listens to the change on the input range for the array length and change the text for the span to the current value
+sortingVisualizerApp.checkValueOnChange = function () {
+    $('#arrayLength').on('change', function () {
+        $('.lengthOnChange').text(this.value);
+    })
+}
+
 // ⏬ Create a function that will scroll down to the section
 sortingVisualizerApp.smoothScroll = () => {
     $("html").animate(
@@ -67,24 +71,28 @@ sortingVisualizerApp.smoothScroll = () => {
 sortingVisualizerApp.sortingAlgorithmCheck = function (userAlgoChoice) {
     let $name = $('.sortingName');
     let $definition = $('.sortingDefinition');
+    let $bigO = $('.bigONotation');
     if (userAlgoChoice === 'mergeSort') {
         const swapMergeAnimation = sortingVisualizerApp.mergeSortingAlgorithm.getMergeAnimation(sortingVisualizerApp.array);
         sortingVisualizerApp.swapBars(swapMergeAnimation);
 
         $name.text(sortingVisualizerApp.mergeSortingAlgorithm.name);
         $definition.text(sortingVisualizerApp.mergeSortingAlgorithm.definition);
+        $bigO.text(sortingVisualizerApp.mergeSortingAlgorithm.bigO);
     } else if (userAlgoChoice === 'bubbleSort') {
         const swapBubbleAnimation = sortingVisualizerApp.bubbleSortingAlgorithm.bubbleSort(sortingVisualizerApp.array);
         sortingVisualizerApp.swapBars(swapBubbleAnimation);
 
         $name.text(sortingVisualizerApp.bubbleSortingAlgorithm.name);
         $definition.text(sortingVisualizerApp.bubbleSortingAlgorithm.definition);
+        $bigO.text(sortingVisualizerApp.bubbleSortingAlgorithm.bigO);
     } else if (userAlgoChoice === 'quickSort') {
         const swapQuickAnimation = sortingVisualizerApp.quickSortingAlgorithm.getQuicksortAnimation(sortingVisualizerApp.array);
         sortingVisualizerApp.swapBars(swapQuickAnimation);
 
         $name.text(sortingVisualizerApp.quickSortingAlgorithm.name);
         $definition.text(sortingVisualizerApp.quickSortingAlgorithm.definition);
+        $bigO.text(sortingVisualizerApp.quickSortingAlgorithm.bigO);
     }
 }
 
@@ -147,10 +155,11 @@ sortingVisualizerApp.swapBars = function (animations) {
 }
 
 // WELCOME TO JUMANJI!
-// created an isolated object for mergeSortAlgorithm 
+// 🐉 created an isolated object for mergeSortAlgorithm 
 sortingVisualizerApp.mergeSortingAlgorithm = {
     name: 'Merge Sort',
     definition: 'First divide the list into the smallest unit (1 element), then compare each element with the adjacent list to sort and merge the two adjacent lists. Finally all the elements are sorted and merged.',
+    bigO: 'O(n log n)',
     // returns the animation array that will be used to get sequence of the index that are being  swapped arrayBar
     getMergeAnimation: function (unsortedArr) {
         const animations = [];
@@ -196,7 +205,7 @@ sortingVisualizerApp.mergeSortingAlgorithm = {
                 unsortedArr[rightIndex++] = auxilaryArry[middleIndex++];
             }
         }
-        // this will check if the division is not equal it will go through this 
+
         while (leftIndex <= middle) {
             animations.push([leftIndex, leftIndex]);
             animations.push([leftIndex, leftIndex]);
@@ -205,7 +214,6 @@ sortingVisualizerApp.mergeSortingAlgorithm = {
         }
 
         while (middleIndex <= end) {
-            console.log(middleIndex)
             animations.push([middleIndex, middleIndex]);
             animations.push([middleIndex, middleIndex]);
             animations.push([rightIndex, auxilaryArry[middleIndex]]);
@@ -214,11 +222,12 @@ sortingVisualizerApp.mergeSortingAlgorithm = {
     }
 }
 
-// created an isolated object for bubbleSortAlgorithm
+// 🐌 created an isolated object for bubbleSortAlgorithm
 // https://medium.com/javascript-algorithms/javascript-algorithms-bubble-sort-3d27f285c3b2
 sortingVisualizerApp.bubbleSortingAlgorithm = {
     name: 'Bubble Sort',
     definition: 'Starting from the beginning of the list, compare every adjacent pair, swap their position if they are not in the right order. After each iteration, one less element is needed to be compared until all the elements are checked!',
+    bigO: 'O(n²)',
     //    compare all the pairs, swap their position if the index + 1 is smaller than index
     bubbleSort: function (unsortedArr) {
         const animations = [];
@@ -241,18 +250,18 @@ sortingVisualizerApp.bubbleSortingAlgorithm = {
     }
 }
 
-// created an isolated object for quickSortAlgorithm
+// 🐎 created an isolated object for quickSortAlgorithm
 // https://www.geeksforgeeks.org/quick-sort/
 sortingVisualizerApp.quickSortingAlgorithm = {
     name: 'Quick Sort',
     definition: ' This sort creates two empty arrays to hold elements less than the pivot and elements greater than the pivot, and then recursively sort the sub arrays. There are two operations, swapping items in place and partitioning a section of the array.',
+    bigO: 'O(n log n)',
     getQuicksortAnimation: function (unsortedArr) {
         const animations = [];
         if (unsortedArr.length <= 1) {
             return unsortedArr;
         }
         sortingVisualizerApp.quickSortingAlgorithm.quickSort(unsortedArr, 0, unsortedArr.length - 1, animations);
-        console.log(animations);
         return animations;
 
     },
@@ -298,8 +307,8 @@ sortingVisualizerApp.quickSortingAlgorithm = {
         temp = unsortedArr[i];
         unsortedArr[i] = unsortedArr[end];
         unsortedArr[end] = temp;
-
         return i;
     }
 }
+
 $(document).ready(sortingVisualizerApp.init());

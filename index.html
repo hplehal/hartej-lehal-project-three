@@ -30,15 +30,19 @@
                 <input type="range" name="timeDelay" id="timeDelay" min="10" max="200">
                 <button type="submit">Let's Sort!</button>
             </form>
+
+            <p class="createdBy">Created by TejLehal 🧞‍♂️</p>
         </aside>
         <section>
-            <h2 class="sortingName"></h2>
+            <div class="header">
+                <h2 class="sortingName"></h2>
+                <h3 class="bigONotation"></h3>
+            </div>
             <!-- use aria for accessibility -->
-            <div class="arrayGraph"></div>
-            <div class="sortingDefinition"></div>
-            <footer>
-                <p>Created by TejLehal 🧞‍♂️</p>
-            </footer>
+            <div class="arrayGraph" aria-describedby="sortingDefinition"></div>
+            <div class="sortingDefinition" id="sortingDefinition"></div>
+
+
         </section>
     </main>
 

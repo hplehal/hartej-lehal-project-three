@@ -257,6 +257,10 @@ html {
   font-size: 62.5%;
 }
 
+.wrapper {
+  max-width: 1600px;
+}
+
 body {
   height: 100vh;
   background-color: #000000;
@@ -343,7 +347,7 @@ form select {
   -webkit-box-shadow: none;
           box-shadow: none;
   border: none;
-  background: #c4c4c4;
+  background: #C4C4C4;
   padding: 0 50px;
   font-size: 16px;
   font-family: Quantico;
@@ -511,6 +515,13 @@ input[type=range]:focus::-ms-fill-upper {
   font-weight: normal;
   font-size: 50px;
   line-height: 71px;
+  color: #FED606;
+  text-align: center;
+}
+
+.bigONotation {
+  font-weight: bold;
+  font-size: 2.2rem;
   color: #FED606;
   text-align: center;
 }

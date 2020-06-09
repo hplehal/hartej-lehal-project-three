@@ -2,6 +2,10 @@ html {
     font-size: 62.5%;
 }
 
+.wrapper {
+    max-width: 1600px;
+}
+
 body{
     height: 100vh;
     background-color: $black;
